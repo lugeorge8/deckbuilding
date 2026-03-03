@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { readDecks } from '@/lib/decksStore';
+import { readDecks, type PriceEntry } from '@/lib/decksStore';
 import { parseDeckText, type DeckCardLine } from '@/lib/deckTextParser';
 
 type UniqueCard = {
@@ -9,6 +9,7 @@ type UniqueCard = {
   set: string;
   number: string;
   totalCount: number;
+  market?: number;
   decks: Array<{ slug: string; name: string; count: number }>;
 };
 
@@ -21,10 +22,16 @@ function sortCards(a: UniqueCard, b: UniqueCard) {
   return a.number.localeCompare(b.number);
 }
 
+function fmtUSD(n?: number) {
+  if (typeof n !== 'number') return '—';
+  return n.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
+}
+
 function accumulateCard(
   map: Map<string, UniqueCard>,
   line: DeckCardLine,
-  deck: { slug: string; name: string }
+  deck: { slug: string; name: string },
+  price?: PriceEntry
 ) {
   const existing = map.get(line.key);
   if (!existing) {
@@ -34,9 +41,15 @@ function accumulateCard(
       set: line.set,
       number: line.number,
       totalCount: line.count,
+      market: price?.market,
       decks: [{ slug: deck.slug, name: deck.name, count: line.count }],
     });
     return;
+  }
+
+  // keep the first seen market price, if any
+  if (existing.market == null && typeof price?.market === 'number') {
+    existing.market = price.market;
   }
 
   existing.totalCount += line.count;
@@ -51,7 +64,10 @@ export default async function CardsPage() {
   const unique = new Map<string, UniqueCard>();
   for (const d of decks) {
     const parsed = parseDeckText(d.raw);
-    for (const line of parsed.lines) accumulateCard(unique, line, d);
+    for (const line of parsed.lines) {
+      const price = d.priceCache?.cards?.[line.key];
+      accumulateCard(unique, line, d, price);
+    }
   }
 
   const cards = Array.from(unique.values()).sort(sortCards);
@@ -89,6 +105,7 @@ export default async function CardsPage() {
                   <th className="px-4 py-3">Set</th>
                   <th className="px-4 py-3">#</th>
                   <th className="px-4 py-3">Total</th>
+                  <th className="px-4 py-3">$ cost</th>
                   <th className="px-4 py-3">Decks</th>
                 </tr>
               </thead>
@@ -99,6 +116,7 @@ export default async function CardsPage() {
                     <td className="px-4 py-4">{c.set}</td>
                     <td className="px-4 py-4">{c.number}</td>
                     <td className="px-4 py-4 font-semibold">{c.totalCount}</td>
+                    <td className="px-4 py-4 tabular-nums">{fmtUSD(c.market)}</td>
                     <td className="px-4 py-4">
                       <div className="flex flex-wrap gap-2">
                         {c.decks

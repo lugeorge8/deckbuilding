@@ -17,13 +17,22 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
       <main className="mx-auto max-w-5xl px-6 py-10">
-        <header className="mb-8">
-          <h1 className="text-2xl font-semibold">Pokemon decks</h1>
-          <p className="mt-2 text-sm text-zinc-600">
-            Click a deck to see its card list and cached prices. Prices come from
-            Limitless (TCGplayer-backed) and are only as fresh as the last
-            refresh.
-          </p>
+        <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold">Pokemon decks</h1>
+            <p className="mt-2 text-sm text-zinc-600">
+              Click a deck to see its card list and cached prices. Prices come from
+              Limitless (TCGplayer-backed) and are only as fresh as the last
+              refresh.
+            </p>
+          </div>
+
+          <Link
+            href="/cards"
+            className="inline-flex items-center justify-center rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-800 hover:bg-zinc-50"
+          >
+            View unique cards
+          </Link>
         </header>
 
         <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
