@@ -4,37 +4,35 @@ export type LimitlessCardResponse = {
   name?: string;
   set?: { code?: string };
   number?: string;
+
+  // Newer Limitless API shape
+  market_price?: number;
+  low_price?: number;
+  mid_price?: number;
+  high_price?: number;
+
+  // Older Limitless API shape (tcgplayer prices)
   tcgplayer?: {
     prices?: {
-      normal?: {
-        market?: number;
-        low?: number;
-        mid?: number;
-        high?: number;
-      };
-      holofoil?: {
-        market?: number;
-        low?: number;
-        mid?: number;
-        high?: number;
-      };
-      reverseHolofoil?: {
-        market?: number;
-        low?: number;
-        mid?: number;
-        high?: number;
-      };
-      firstEditionHolofoil?: {
-        market?: number;
-        low?: number;
-        mid?: number;
-        high?: number;
-      };
+      normal?: { market?: number; low?: number; mid?: number; high?: number };
+      holofoil?: { market?: number; low?: number; mid?: number; high?: number };
+      reverseHolofoil?: { market?: number; low?: number; mid?: number; high?: number };
+      firstEditionHolofoil?: { market?: number; low?: number; mid?: number; high?: number };
     };
   };
 };
 
 function pickPrice(resp: LimitlessCardResponse): PriceEntry {
+  // Prefer the newer top-level market_price fields if present
+  if (typeof resp?.market_price === 'number') {
+    return {
+      market: resp.market_price,
+      low: typeof resp.low_price === 'number' ? resp.low_price : undefined,
+      mid: typeof resp.mid_price === 'number' ? resp.mid_price : undefined,
+      high: typeof resp.high_price === 'number' ? resp.high_price : undefined,
+    };
+  }
+
   const prices = resp?.tcgplayer?.prices;
   const variant =
     prices?.normal ??

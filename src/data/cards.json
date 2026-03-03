@@ -1,4 +1,341 @@
 {
-  "refreshedAt": null,
-  "cards": {}
+  "refreshedAt": "2026-03-03T06:36:41.817Z",
+  "cards": {
+    "TEF-123": {
+      "market": 125
+    },
+    "PRE-12": {
+      "market": 161
+    },
+    "MEG-104": {
+      "market": 82
+    },
+    "TEF-25": {
+      "market": 73
+    },
+    "SCR-111": {
+      "market": 16
+    },
+    "SSP-76": {
+      "market": 307
+    },
+    "ASC-142": {
+      "market": 422
+    },
+    "TWM-165": {
+      "market": 1099
+    },
+    "PRE-105": {
+      "market": 15
+    },
+    "ASC-183": {
+      "market": 58
+    },
+    "PRE-103": {
+      "market": 12
+    },
+    "ASC-192": {
+      "market": 58
+    },
+    "SSP-170": {
+      "market": 16
+    },
+    "ASC-213": {
+      "market": 13
+    },
+    "ASC-189": {
+      "market": 10
+    },
+    "SSP-189": {
+      "market": 18
+    },
+    "ASC-196": {
+      "market": 37
+    },
+    "MEG-115": {
+      "market": 13
+    },
+    "WHT-82": {
+      "market": 15
+    },
+    "MEE-1": {
+      "market": 14
+    },
+    "MEE-4": {
+      "market": 13
+    },
+    "MEE-6": {
+      "market": 19
+    },
+    "ASC-160": {
+      "market": 101
+    },
+    "ASC-159": {
+      "market": 11
+    },
+    "ASC-158": {
+      "market": 9
+    },
+    "ASC-16": {
+      "market": 20
+    },
+    "PRE-35": {
+      "market": 13
+    },
+    "PRE-36": {
+      "market": 18
+    },
+    "PRE-37": {
+      "market": 25
+    },
+    "TWM-141": {
+      "market": 197
+    },
+    "ASC-184": {
+      "market": 17
+    },
+    "TWM-153": {
+      "market": 14
+    },
+    "ASC-207": {
+      "market": 62
+    },
+    "ASC-210": {
+      "market": 21
+    },
+    "ASC-198": {
+      "market": 902
+    },
+    "DRI-167": {
+      "market": 17
+    },
+    "PFL-87": {
+      "market": 18
+    },
+    "MEG-125": {
+      "market": 11
+    },
+    "MEE-2": {
+      "market": 8
+    },
+    "MEE-5": {
+      "market": 13
+    },
+    "ASC-112": {
+      "market": 15
+    },
+    "ASC-113": {
+      "market": 117
+    },
+    "MEG-72": {
+      "market": 20
+    },
+    "MEG-73": {
+      "market": 18
+    },
+    "ASC-106": {
+      "market": 18
+    },
+    "ASC-105": {
+      "market": 23
+    },
+    "MEG-179": {
+      "market": 16083
+    },
+    "MEG-132": {
+      "market": 20
+    },
+    "ASC-187": {
+      "market": 20
+    },
+    "ASC-199": {
+      "market": 20
+    },
+    "MEG-130": {
+      "market": 15
+    },
+    "ASC-181": {
+      "market": 18
+    },
+    "TEF-152": {
+      "market": 1247
+    },
+    "PFL-85": {
+      "market": 22
+    },
+    "DRI-136": {
+      "market": 80
+    },
+    "DRI-135": {
+      "market": 18
+    },
+    "DRI-134": {
+      "market": 12
+    },
+    "ASC-99": {
+      "market": 26
+    },
+    "TWM-53": {
+      "market": 26
+    },
+    "ASC-46": {
+      "market": 32
+    },
+    "TWM-131": {
+      "market": 16
+    },
+    "DRI-169": {
+      "market": 15
+    },
+    "TEF-144": {
+      "market": 23
+    },
+    "TEF-155": {
+      "market": 9
+    },
+    "MEE-7": {
+      "market": 19
+    },
+    "ASC-33": {
+      "market": 15
+    },
+    "ASC-32": {
+      "market": 15
+    },
+    "ASC-137": {
+      "market": 116
+    },
+    "ASC-136": {
+      "market": 23
+    },
+    "ASC-155": {
+      "market": 131
+    },
+    "ASC-154": {
+      "market": 16
+    },
+    "SFA-39": {
+      "market": 538
+    },
+    "ASC-195": {
+      "market": 20
+    },
+    "PRE-112": {
+      "market": 12
+    },
+    "JTG-152": {
+      "market": 12
+    },
+    "PRE-95": {
+      "market": 11
+    },
+    "MEG-1": {
+      "market": 21
+    },
+    "MEG-2": {
+      "market": 21
+    },
+    "MEG-3": {
+      "market": 76
+    },
+    "ASC-8": {
+      "market": 20
+    },
+    "ASC-9": {
+      "market": 18
+    },
+    "ASC-10": {
+      "market": 686
+    },
+    "MEG-10": {
+      "market": 17
+    },
+    "PRE-86": {
+      "market": 11
+    },
+    "MEG-12": {
+      "market": 12
+    },
+    "SFA-64": {
+      "market": 14
+    },
+    "PRE-102": {
+      "market": 14
+    },
+    "PRE-116": {
+      "market": 74
+    },
+    "ASC-188": {
+      "market": 18
+    },
+    "TEF-128": {
+      "market": 13
+    },
+    "PRE-80": {
+      "market": 23
+    },
+    "MEG-54": {
+      "market": 12
+    },
+    "TWM-80": {
+      "market": 20
+    },
+    "MEG-55": {
+      "market": 15
+    },
+    "MEG-56": {
+      "market": 22
+    },
+    "TWM-82": {
+      "market": 23
+    },
+    "ASC-39": {
+      "market": 44
+    },
+    "ASC-171": {
+      "market": 16
+    },
+    "WHT-84": {
+      "market": 168
+    },
+    "TWM-155": {
+      "market": 26
+    },
+    "PFL-94": {
+      "market": 17
+    },
+    "DRI-168": {
+      "market": 15
+    },
+    "SSP-191": {
+      "market": 253
+    },
+    "PRE-77": {
+      "market": 9
+    },
+    "SCR-114": {
+      "market": 30
+    },
+    "PRE-78": {
+      "market": 23
+    },
+    "PRE-27": {
+      "market": 88
+    },
+    "ASC-76": {
+      "market": 114
+    },
+    "ASC-179": {
+      "market": 80
+    },
+    "PRE-129": {
+      "market": 35
+    },
+    "PRE-94": {
+      "market": 16
+    },
+    "MEE-3": {
+      "market": 12
+    }
+  }
 }

@@ -3,8 +3,82 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import { parseDeckText } from '../src/lib/deckTextParser.js';
-import { fetchLimitlessPrice } from '../src/lib/limitless.js';
+async function fetchLimitlessPrice(set, number) {
+  const url = `https://limitlesstcg.com/api/cards/${encodeURIComponent(set)}/${encodeURIComponent(number)}`;
+  const res = await fetch(url, {
+    cache: 'no-store',
+    headers: { 'user-agent': 'pokemon-deck-deckbuilder/1.0' },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Limitless fetch failed: ${res.status} ${res.statusText}`);
+  }
+
+  const json = await res.json();
+  if (typeof json?.market_price === 'number') {
+    return {
+      market: json.market_price,
+      low: typeof json.low_price === 'number' ? json.low_price : undefined,
+      mid: typeof json.mid_price === 'number' ? json.mid_price : undefined,
+      high: typeof json.high_price === 'number' ? json.high_price : undefined,
+    };
+  }
+
+  const prices = json?.tcgplayer?.prices;
+  const variant =
+    prices?.normal ??
+    prices?.holofoil ??
+    prices?.reverseHolofoil ??
+    prices?.firstEditionHolofoil;
+
+  if (!variant) return {};
+  const { market, low, mid, high } = variant;
+  return {
+    market: typeof market === 'number' ? market : undefined,
+    low: typeof low === 'number' ? low : undefined,
+    mid: typeof mid === 'number' ? mid : undefined,
+    high: typeof high === 'number' ? high : undefined,
+  };
+}
+
+
+function parseDeckText(raw) {
+  const SECTION_HEADERS = [
+    { re: /^pok[ée]mon/i, section: 'pokemon' },
+    { re: /^trainer/i, section: 'trainer' },
+    { re: /^energy/i, section: 'energy' },
+  ];
+
+  const out = [];
+  let section = 'unknown';
+
+  for (const originalLine of raw.split(/\r?\n/)) {
+    const line = originalLine.trim();
+    if (!line) continue;
+    if (/deck:/i.test(line)) continue;
+
+    for (const h of SECTION_HEADERS) {
+      if (h.re.test(line)) {
+        section = h.section;
+      }
+    }
+
+    const m = line.match(/^([0-9]+)x?\s+(.+?)\s+([A-Z0-9-]{2,})\s+([0-9A-Z]+)$/);
+    if (!m) continue;
+    const count = Number(m[1]);
+    const set = m[3];
+    const number = m[4];
+    out.push({
+      count,
+      set,
+      number,
+      section,
+      key: `${set}-${number}`,
+    });
+  }
+
+  return { lines: out };
+}
 
 const ROOT = process.cwd();
 const DECKS_PATH = path.join(ROOT, 'src', 'data', 'decks.json');
