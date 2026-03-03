@@ -45,12 +45,20 @@ export default async function Home() {
             </p>
           </div>
 
-          <Link
-            href="/cards"
-            className="inline-flex items-center justify-center rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-800 hover:bg-zinc-50"
-          >
-            View unique cards
-          </Link>
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href="/cards"
+              className="inline-flex items-center justify-center rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-800 hover:bg-zinc-50"
+            >
+              View unique cards
+            </Link>
+            <Link
+              href="/collection"
+              className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white hover:opacity-90"
+            >
+              Collection planner
+            </Link>
+          </div>
         </header>
 
         <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
