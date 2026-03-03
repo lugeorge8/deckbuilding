@@ -41,18 +41,27 @@ export default async function DeckPage({ params }: { params: Promise<{ slug: str
         <div className="space-y-8">
           {(
             [
-              ['Pokémon', grouped.pokemon],
+              ['Pokémon', [...grouped.pokemon, ...grouped.unknown]],
               ['Trainers', grouped.trainer],
               ['Energy', grouped.energy],
-              ['Pokémon', grouped.unknown],
             ] as const
           )
             .filter(([, lines]) => lines.length > 0)
-            .map(([label, lines]) => (
-              <section key={label} className="rounded-lg border border-zinc-200 bg-white">
-                <header className="border-b border-zinc-100 px-4 py-3">
-                  <h2 className="text-sm font-semibold">{label}</h2>
-                </header>
+            .map(([label, lines]) => {
+              const bucketCount = Array.from(lines).reduce(
+                (sum: number, l) => sum + l.count,
+                0
+              );
+              return (
+                <section
+                  key={label}
+                  className="rounded-lg border border-zinc-200 bg-white"
+                >
+                  <header className="border-b border-zinc-100 px-4 py-3">
+                    <h2 className="text-sm font-semibold">
+                      {label} <span className="text-zinc-500">({bucketCount})</span>
+                    </h2>
+                  </header>
 
                 <div className="overflow-x-auto">
                   <table className="min-w-full text-sm">
@@ -85,8 +94,9 @@ export default async function DeckPage({ params }: { params: Promise<{ slug: str
                     </tbody>
                   </table>
                 </div>
-              </section>
-            ))}
+                </section>
+              );
+            })}
         </div>
       </main>
     </div>
