@@ -1,7 +1,9 @@
 import Link from 'next/link';
 
 import { readDecks, type PriceEntry } from '@/lib/decksStore';
+import { readCardsCache } from '@/lib/cardsStore';
 import { parseDeckText, type DeckCardLine } from '@/lib/deckTextParser';
+import { RefreshAllButton } from './RefreshAllButton';
 
 type UniqueCard = {
   key: string;
@@ -60,12 +62,13 @@ function accumulateCard(
 
 export default async function CardsPage() {
   const decks = await readDecks();
+  const cardsCache = await readCardsCache();
 
   const unique = new Map<string, UniqueCard>();
   for (const d of decks) {
     const parsed = parseDeckText(d.raw);
     for (const line of parsed.lines) {
-      const price = d.priceCache?.cards?.[line.key];
+      const price = cardsCache.cards?.[line.key] ?? d.priceCache?.cards?.[line.key];
       accumulateCard(unique, line, d, price);
     }
   }
@@ -83,15 +86,21 @@ export default async function CardsPage() {
             <div className="mt-1 text-xl font-semibold tracking-tight">Unique cards</div>
             <div className="mt-1 text-sm text-zinc-600">
               {cards.length} unique cards across {decks.length} decks
+              {cardsCache.refreshedAt ? (
+                <> · prices refreshed {new Date(cardsCache.refreshedAt).toLocaleString()}</>
+              ) : null}
             </div>
           </div>
 
-          <Link
-            href="/"
-            className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-800 hover:bg-zinc-50"
-          >
-            Back
-          </Link>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <RefreshAllButton />
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-800 hover:bg-zinc-50"
+            >
+              Back
+            </Link>
+          </div>
         </div>
       </header>
 

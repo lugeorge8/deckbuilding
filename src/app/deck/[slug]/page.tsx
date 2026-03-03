@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { findDeck } from '@/lib/decksStore';
+import { readCardsCache } from '@/lib/cardsStore';
 import { groupBySection, parseDeckText } from '@/lib/deckTextParser';
 import { RefreshButton } from './RefreshButton';
 
@@ -13,6 +14,8 @@ export default async function DeckPage({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const deck = await findDeck(slug);
   if (!deck) return notFound();
+
+  const cardsCache = await readCardsCache();
 
   const parsed = parseDeckText(deck.raw);
   const grouped = groupBySection(parsed.lines);
@@ -28,10 +31,13 @@ export default async function DeckPage({ params }: { params: Promise<{ slug: str
             <h1 className="mt-2 text-2xl font-semibold">{deck.name}</h1>
             <div className="mt-1 text-sm text-zinc-600">
               Total cards: {parsed.totalCards}
+              {cardsCache.refreshedAt ? (
+                <> · Prices: {new Date(cardsCache.refreshedAt).toLocaleString()}</>
+              ) : null}
               {deck.priceCache?.refreshedAt ? (
-                <> · Last refreshed: {new Date(deck.priceCache.refreshedAt).toLocaleString()}</>
+                <> · Deck cache: {new Date(deck.priceCache.refreshedAt).toLocaleString()}</>
               ) : (
-                <> · Last refreshed: —</>
+                <> · Deck cache: —</>
               )}
             </div>
           </div>
@@ -77,7 +83,8 @@ export default async function DeckPage({ params }: { params: Promise<{ slug: str
                     </thead>
                     <tbody>
                       {lines.map((l) => {
-                        const price = deck.priceCache?.cards?.[l.key];
+                        const price =
+                          cardsCache.cards?.[l.key] ?? deck.priceCache?.cards?.[l.key];
                         const market = price?.market;
                         const total = typeof market === 'number' ? market * l.count : undefined;
                         return (
