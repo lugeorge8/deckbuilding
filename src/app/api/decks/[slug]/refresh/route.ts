@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { readDecks, writeDecks } from '@/lib/decksStore';
+import { readDecks, writeDecks, type PriceEntry } from '@/lib/decksStore';
 import { parseDeckText } from '@/lib/deckTextParser';
 import { fetchLimitlessPrice } from '@/lib/limitless';
 
@@ -15,15 +15,15 @@ export async function POST(_: Request, { params }: { params: Promise<{ slug: str
   const unique = new Map<string, { set: string; number: string }>();
   for (const l of lines) unique.set(l.key, { set: l.set, number: l.number });
 
-  const results: Record<string, any> = {};
+  const results: Record<string, PriceEntry> = {};
   const errors: Record<string, string> = {};
 
   // Basic sequential fetch to be polite; can batch/parallel later.
   for (const [key, v] of unique.entries()) {
     try {
       results[key] = await fetchLimitlessPrice(v.set, v.number);
-    } catch (e: any) {
-      errors[key] = e?.message ?? 'unknown error';
+    } catch (e: unknown) {
+      errors[key] = e instanceof Error ? e.message : 'unknown error';
     }
   }
 

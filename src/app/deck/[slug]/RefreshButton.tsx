@@ -16,8 +16,8 @@ export function RefreshButton({ slug }: { slug: string }) {
       const json = await res.json();
       if (!res.ok) throw new Error(json?.error ?? 'refresh failed');
       setMsg(`Refreshed (${json.updated} cards). Reload to see updated cache.`);
-    } catch (e: any) {
-      setMsg(e?.message ?? 'refresh failed');
+    } catch (e: unknown) {
+      setMsg(e instanceof Error ? e.message : 'refresh failed');
     } finally {
       setLoading(false);
     }
