@@ -68,5 +68,15 @@
       "refreshedAt": null,
       "cards": {}
     }
+  },
+  {
+    "name": "Tera Box",
+    "slug": "tera-box",
+    "sourceChannelId": "1476773521282695343",
+    "raw": "Tera Box Deck: Pokémon: 24\n3 Teal Mask Ogerpon ex PRE 12\n1 Hoothoot PRE 77\n3 Hoothoot SCR 114\n4 Noctowl PRE 78\n3 Wellspring Mask Ogerpon ex PRE 27\n2 Lillie's Clefairy ex ASC 76\n2 Fan Rotom ASC 171\n1 Iron Leaves ex TEF 25\n1 Fezandipiti ex ASC 142\n1 Terapagos ex ASC 179\n1 Mega Kangaskhan ex MEG 104\n1 Latias ex SSP 76\n1 Bloodmoon Ursaluna ex TWM 141\n\nTrainer: 24\n3 Crispin PRE 105\n2 Boss's Orders ASC 183\n4 Ultra Ball ASC 213\n1 Judge DRI 167\n1 Sparkling Crystal PRE 129\n1 Cyrano SSP 170\n2 Lillie's Determination ASC 192\n3 Poké Pad ASC 198\n2 Tera Orb SSP 189\n2 Night Stretcher ASC 196\n1 Energy Switch MEG 115\n2 Area Zero Underdepths PRE 94\n\nEnergy: 12\n5 Grass Energy MEE 1\n3 Psychic Energy MEE 5\n2 Water Energy MEE 3\n2 Lightning Energy MEE 4",
+    "priceCache": {
+      "refreshedAt": null,
+      "cards": {}
+    }
   }
 ]
