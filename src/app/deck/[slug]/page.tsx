@@ -44,7 +44,7 @@ export default async function DeckPage({ params }: { params: Promise<{ slug: str
               ['Pokémon', grouped.pokemon],
               ['Trainers', grouped.trainer],
               ['Energy', grouped.energy],
-              ['Other', grouped.unknown],
+              ['Pokémon', grouped.unknown],
             ] as const
           )
             .filter(([, lines]) => lines.length > 0)
