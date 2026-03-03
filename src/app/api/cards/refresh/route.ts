@@ -8,7 +8,8 @@ import { readCardsCache, writeCardsCache } from '@/lib/cardsStore';
 export const runtime = 'nodejs';
 
 export async function POST() {
-  const decks = await readDecks();
+  try {
+    const decks = await readDecks();
 
   // Collect unique set/number pairs across all decks
   const unique = new Map<string, { set: string; number: string }>();
@@ -35,10 +36,16 @@ export async function POST() {
   cache.refreshedAt = new Date().toISOString();
   await writeCardsCache(cache);
 
-  return NextResponse.json({
-    ok: true,
-    refreshedAt: cache.refreshedAt,
-    updated: Object.keys(results).length,
-    errors,
-  });
+    return NextResponse.json({
+      ok: true,
+      refreshedAt: cache.refreshedAt,
+      updated: Object.keys(results).length,
+      errors,
+    });
+  } catch (e: unknown) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : 'refresh failed' },
+      { status: 500 }
+    );
+  }
 }

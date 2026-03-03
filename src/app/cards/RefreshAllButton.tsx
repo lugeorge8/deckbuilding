@@ -11,9 +11,10 @@ export function RefreshAllButton() {
     setMsg(null);
     try {
       const res = await fetch('/api/cards/refresh', { method: 'POST' });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json?.error ?? 'refresh failed');
-      setMsg(`Refreshed ${json.updated} cards. Reload to see updated prices.`);
+      const text = await res.text();
+      const json = text ? (JSON.parse(text) as { updated?: number; error?: string }) : null;
+      if (!res.ok) throw new Error(json?.error ?? `refresh failed (${res.status})`);
+      setMsg(`Refreshed ${json?.updated ?? 0} cards. Reload to see updated prices.`);
     } catch (e: unknown) {
       setMsg(e instanceof Error ? e.message : 'refresh failed');
     } finally {

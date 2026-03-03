@@ -1,16 +1,34 @@
 import Link from 'next/link';
 import { readDecks } from '@/lib/decksStore';
+import { readCardsCache } from '@/lib/cardsStore';
 import { parseDeckText } from '@/lib/deckTextParser';
+
+function fmtUSD(n?: number) {
+  if (typeof n !== 'number') return '—';
+  return n.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
+}
 
 export default async function Home() {
   const decks = await readDecks();
+  const cardsCache = await readCardsCache();
 
   const rows = decks.map((d) => {
     const parsed = parseDeckText(d.raw);
+
+    const deckCost = parsed.lines.reduce((sum, l) => {
+      const market = cardsCache.cards?.[l.key]?.market;
+      return sum + (typeof market === 'number' ? market * l.count : 0);
+    }, 0);
+
+    const hasAnyPrice = parsed.lines.some(
+      (l) => typeof cardsCache.cards?.[l.key]?.market === 'number'
+    );
+
     return {
       ...d,
       totalCards: parsed.totalCards,
       refreshedAt: d.priceCache?.refreshedAt,
+      deckCost: hasAnyPrice ? deckCost : undefined,
     };
   });
 
@@ -41,6 +59,7 @@ export default async function Home() {
               <tr>
                 <th className="px-4 py-3 font-medium">Deck</th>
                 <th className="px-4 py-3 font-medium">Total cards</th>
+                <th className="px-4 py-3 font-medium">Deck cost</th>
                 <th className="px-4 py-3 font-medium">Last price refresh</th>
               </tr>
             </thead>
@@ -53,6 +72,9 @@ export default async function Home() {
                     </Link>
                   </td>
                   <td className="px-4 py-3 tabular-nums">{d.totalCards}</td>
+                  <td className="px-4 py-3 tabular-nums text-zinc-900">
+                    {fmtUSD(d.deckCost)}
+                  </td>
                   <td className="px-4 py-3 text-zinc-700">
                     {d.refreshedAt ? new Date(d.refreshedAt).toLocaleString() : '—'}
                   </td>
