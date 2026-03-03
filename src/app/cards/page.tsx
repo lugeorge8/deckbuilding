@@ -115,6 +115,7 @@ export default async function CardsPage() {
                   <th className="px-4 py-3">#</th>
                   <th className="px-4 py-3">Total</th>
                   <th className="px-4 py-3">$ cost</th>
+                  <th className="px-4 py-3">Price updated</th>
                   <th className="px-4 py-3">Decks</th>
                 </tr>
               </thead>
@@ -126,6 +127,11 @@ export default async function CardsPage() {
                     <td className="px-4 py-4">{c.number}</td>
                     <td className="px-4 py-4 font-semibold">{c.totalCount}</td>
                     <td className="px-4 py-4 tabular-nums">{fmtUSD(c.market)}</td>
+                    <td className="px-4 py-4 text-xs text-zinc-600">
+                      {cardsCache.refreshedAt
+                        ? new Date(cardsCache.refreshedAt).toLocaleDateString()
+                        : '—'}
+                    </td>
                     <td className="px-4 py-4">
                       <div className="flex flex-wrap gap-2">
                         {c.decks
