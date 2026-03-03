@@ -16,11 +16,12 @@ async function fetchLimitlessPrice(set, number) {
 
   const json = await res.json();
   if (typeof json?.market_price === 'number') {
+    const toUSD = (v) => (typeof v === 'number' ? v / 100 : undefined);
     return {
-      market: json.market_price,
-      low: typeof json.low_price === 'number' ? json.low_price : undefined,
-      mid: typeof json.mid_price === 'number' ? json.mid_price : undefined,
-      high: typeof json.high_price === 'number' ? json.high_price : undefined,
+      market: toUSD(json.market_price),
+      low: toUSD(json.low_price),
+      mid: toUSD(json.mid_price),
+      high: toUSD(json.high_price),
     };
   }
 

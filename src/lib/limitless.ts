@@ -25,11 +25,12 @@ export type LimitlessCardResponse = {
 function pickPrice(resp: LimitlessCardResponse): PriceEntry {
   // Prefer the newer top-level market_price fields if present
   if (typeof resp?.market_price === 'number') {
+    const toUSD = (v?: number) => (typeof v === 'number' ? v / 100 : undefined);
     return {
-      market: resp.market_price,
-      low: typeof resp.low_price === 'number' ? resp.low_price : undefined,
-      mid: typeof resp.mid_price === 'number' ? resp.mid_price : undefined,
-      high: typeof resp.high_price === 'number' ? resp.high_price : undefined,
+      market: toUSD(resp.market_price),
+      low: toUSD(resp.low_price),
+      mid: toUSD(resp.mid_price),
+      high: toUSD(resp.high_price),
     };
   }
 
